@@ -3,10 +3,11 @@ import React, { useState, useEffect } from 'react';
 const NewJobPage = () => {
   const [questions, setQuestions] = useState([]);
   const [formData, setFormData] = useState({});
+  const [resume, setResume] = useState(null);
 
   useEffect(() => {
     // Fetch questions from backend API
-    fetch('https://your-backend-api.com/questions')
+    fetch(process.env.REACT_APP_API_URL + '/questions')
       .then(response => response.json())
       .then(data => setQuestions(data))
       .catch(error => console.error('Error fetching questions:', error));
@@ -20,15 +21,25 @@ const NewJobPage = () => {
     }));
   };
 
+  const handleFileChange = (e) => {
+    setResume(e.target.files[0]);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const formDataToSend = new FormData();
+    for (const key in formData) {
+      formDataToSend.append(key, formData[key]);
+    }
+    if (resume) {
+      formDataToSend.append('resume', resume);
+    }
+
     // Submit form data to backend API
-    fetch('https://your-backend-api.com/submit-application', {
+    fetch(process.env.REACT_APP_API_URL + '/submit-application', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
+      body: formDataToSend,
     })
       .then(response => response.json())
       .then(data => console.log('Success:', data))
@@ -48,6 +59,7 @@ const NewJobPage = () => {
             name="fullName"
             className="w-full border border-gray-300 p-2 rounded mt-1"
             onChange={handleChange}
+            required
           />
         </label>
 
@@ -58,6 +70,7 @@ const NewJobPage = () => {
             name="email"
             className="w-full border border-gray-300 p-2 rounded mt-1"
             onChange={handleChange}
+            required
           />
         </label>
 
@@ -68,6 +81,7 @@ const NewJobPage = () => {
             name="phoneNumber"
             className="w-full border border-gray-300 p-2 rounded mt-1"
             onChange={handleChange}
+            required
           />
         </label>
 
@@ -79,6 +93,7 @@ const NewJobPage = () => {
             name="education"
             className="w-full border border-gray-300 p-2 rounded mt-1"
             onChange={handleChange}
+            required
           ></textarea>
         </label>
 
@@ -88,6 +103,7 @@ const NewJobPage = () => {
             name="workExperience"
             className="w-full border border-gray-300 p-2 rounded mt-1"
             onChange={handleChange}
+            required
           ></textarea>
         </label>
 
@@ -97,8 +113,21 @@ const NewJobPage = () => {
             name="skills"
             className="w-full border border-gray-300 p-2 rounded mt-1"
             onChange={handleChange}
+            required
           ></textarea>
         </label>
+
+        {/* <label className="block mb-2">
+          Resume (PDF or Word):
+          <input
+            type="file"
+            name="resume"
+            className="w-full border border-gray-300 p-2 rounded mt-1"
+            onChange={handleFileChange}
+            accept=".pdf,.doc,.docx"
+            required
+          />
+        </label> */}
 
         <h2 className="text-2xl font-semibold my-4">Additional Questions</h2>
 
@@ -114,7 +143,7 @@ const NewJobPage = () => {
         ))}
 
         <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded mt-4">
-          Submit 
+          Submit
         </button>
       </form>
     </div>
@@ -122,3 +151,4 @@ const NewJobPage = () => {
 };
 
 export default NewJobPage;
+

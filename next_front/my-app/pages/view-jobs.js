@@ -13,7 +13,6 @@ const ViewJobsPage = () => {
       criteria: 'PMP certification, 5 years of experience, excellent communication skills.',
     },
     // Add more job objects here as needed
-
   ];
 
   return (
