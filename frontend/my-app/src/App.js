@@ -1,40 +1,45 @@
-import React, { useState } from 'react';
-import Welcome from './components/Welcome';
-import UserForm from './components/UserForm';
-import SuccessMessage from './components/SuccessMessage';
+// import React from 'react';
+// import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+// import RegisterUser from './components/RegisterUser';
+// import UploadResume from './components/UploadResume';
+// import NewJob from './components/NewJob';
+// import ViewJobs from './components/ViewJobs';
 
-function App() {
-  const [step, setStep] = useState(1);
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    idNumber: ''
-  });
+// const App = () => {
+//   return (
+//     <Router>
+//       <Switch>
+//         <Route path="/register" component={RegisterUser} />
+//         <Route path="/upload-resume" component={UploadResume} />
+//         <Route path="/new-job" component={NewJob} />
+//         <Route path="/view-jobs" component={ViewJobs} />
+//       </Switch>
+//     </Router>
+//   );
+// };
 
-  const nextStep = () => {
-    setStep(step + 1);
-  };
+// export default App;
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import RegisterUser from './components/RegisterUser';
+import UploadResume from './components/UploadResume';
+import NewJob from './components/NewJob';
+import ViewJobs from './components/ViewJobs';
+import ResumeForm from './components/ResumeForm'; // ייבוא הקומפוננטה החדשה
 
-  const handleFormChange = (input) => (e) => {
-    setFormData({ ...formData, [input]: e.target.value });
-  };
-
-  switch (step) {
-    case 1:
-      return <Welcome nextStep={nextStep} />;
-    case 2:
-      return (
-        <UserForm 
-          nextStep={nextStep}
-          handleFormChange={handleFormChange}
-          formData={formData}
-        />
-      );
-    case 3:
-      return <SuccessMessage />;
-    default:
-      return <Welcome nextStep={nextStep} />;
-  }
-}
+const App = () => {
+  return (
+    <Router>
+      <Switch>
+        <Route path="/register" component={RegisterUser} />
+        <Route path="/upload-resume" component={UploadResume} />
+        <Route path="/new-job" component={NewJob} />
+        <Route path="/view-jobs" component={ViewJobs} />
+        <Route path="/resume-form" component={ResumeForm} /> {/* הוספת נתיב חדש לטופס קורות חיים */}
+      </Switch>
+    </Router>
+  );
+};
 
 export default App;
+
