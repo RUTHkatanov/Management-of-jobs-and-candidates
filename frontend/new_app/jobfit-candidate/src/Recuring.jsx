@@ -125,6 +125,39 @@ function Recruiting() {
             </div>
 
             <div className="bg-purple-200 p-4 rounded-md w-1/2 mb-4">
+                <h2 className="text-xl mb-2">List of candidates</h2>
+                {jobs.length === 0 ? (
+                    <p>No candidates available</p>
+                ) : (
+                    candidates.map((job, index) => (
+                        <div key={index} className="mb-4 p-2 border rounded-md">
+                            <h3 className="text-lg">{candidates.title}</h3>
+                            <p>{candidates.description}</p>
+                            <p>{candidates.requirements}</p>
+                            <button
+                                onClick={() => handleSelectJob(index)}
+                                className="bg-blue-500 text-white p-2 rounded-md mr-2"
+                            >
+                                Edit
+                            </button>
+                            <button
+                                onClick={() => handleDeleteJob(index, job._id)}
+                                className="bg-red-500 text-white p-2 rounded-md"
+                            >
+                                Delete
+                            </button>
+                            <button
+                                onClick={() => handleUpdateJob(index)}
+                                className="bg-yellow-500 text-white p-2 rounded-md"
+                            >
+                                Update
+                            </button>
+                        </div>
+                    ))
+                )}
+            </div>
+
+            <div className="bg-purple-200 p-4 rounded-md w-1/2 mb-4">
                 <h2 className="text-xl mb-2">Characterization of requirements for the model</h2>
                 <textarea
                     placeholder="Requirements for the model"

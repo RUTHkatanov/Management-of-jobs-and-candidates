@@ -30,9 +30,8 @@ function Candidate() {
             'Content-Type': 'multipart/form-data',
           },
         });
-        setMatchScore(response.data);
+        setMatchScore(response.data.match_score);
 
-        console.log(response.data);
       } catch (error) {
         console.error(error);
       }finally{

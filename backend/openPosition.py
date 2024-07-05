@@ -27,11 +27,13 @@ def list_open_position(request: Request):
     open_positions = list(database["open position"].find(limit=100))
     return open_positions
 
+# @router.get("get-jobs-list", response_description="get-jobs-list", response_model=List[OpenPosition])
 
-@router.get("/{id}", response_description="Get a single open position by id", response_model=OpenPosition)
-def find_open_position(id: str, request: Request):
-    if (open_position := database["open positions"].find_one({"_id": id})) is not None:
-        return open_position
+@router.post("/get-file", response_description="Get a file from candidate", response_model=CandidateFile)
+def get_file_from_candidate(id: str, request: Request):
+    if (CandidateFile := database["CandidateFile"].find_one({"_id": id})) is not None:
+        calc_score = calc_score()
+        return calc_score
 
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                         detail=f"Open position with ID {id} not found")

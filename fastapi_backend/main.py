@@ -1,4 +1,5 @@
 from datetime import date
+import shutil
 from typing import List
 from fastapi import FastAPI, Depends, HTTPException
 from pydantic import BaseModel
@@ -7,6 +8,18 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.future import select
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
+from fastapi import FastAPI, File, UploadFile, HTTPException
+from fastapi.responses import JSONResponse
+from pydantic import BaseModel
+from typing import Dict
+import random
+import uvicorn
+from resume import Resume
+
+from backend import pdf_converter
+from backend.models import Resume
+
+app = FastAPI()
 
 DATABASE_URL = "sqlite+aiosqlite:///./test.db"
 
@@ -62,6 +75,25 @@ async def get_db():
         yield session
 
 app = FastAPI()
+
+class CandidateFile(BaseModel):
+    match_score: int
+   
+   
+@app.post("/api/candidate/file", response_model=CandidateFile)
+async def get_file_from_candidate(file: UploadFile = File(...)):
+    if file.content_type != "application/pdf":
+        raise HTTPException(status_code=400, detail="Invalid file type. Only PDFs are accepted.")
+    file_location = f"files/{file.filename}"
+    
+    # use function to get the file and clculate the score 
+    with open(file_location, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+    resume = Resume()
+    resume.compute
+    return JSONResponse(content={"match_score": match_score})
+
+
 
 @app.post("/user/")
 async def create_user(user: UserCreate, db: AsyncSession = Depends(get_db)):
