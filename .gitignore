@@ -7,3 +7,6 @@ frontend/certs/
 frontend/node_modules/
 backend/__pycache__/models.cpython-38.pyc
 /node_modules
+.idea
+resume.pdf
+__pycache__
