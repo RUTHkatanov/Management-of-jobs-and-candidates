@@ -6,7 +6,7 @@
   "configurations": [
     {
       "name": "Python: FastAPI",
-      "type": "python",
+      "type": "debugpy",
       "request": "launch",
       "module": "uvicorn",
       "cwd": "${workspaceFolder}/backend",
@@ -14,6 +14,6 @@
       "args": ["main:app"],
       "jinja": true,
       "justMyCode": true
-    }
+    },
   ]
 }
