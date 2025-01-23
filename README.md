@@ -1,4 +1,4 @@
-# Demo web server using React and FastAPI
+# Demo web server using React and FastAPI for management of jobs and candidates
 
 ## Prerequisites
 
